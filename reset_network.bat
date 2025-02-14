@@ -1,17 +1,23 @@
 @echo off
-:: Проверяем, запущен ли скрипт с правами администратора
+:: Network Reset Script
+:: Author: YourGitHubUsername
+:: This script resets network settings in Windows
+
+:: Check for administrator privileges
 net session >nul 2>&1
 if %errorLevel% neq 0 (
-    echo Запуск от имени администратора...
+    echo Running as Administrator...
     powershell -Command "Start-Process cmd -ArgumentList '/c \"%~f0\"' -Verb RunAs"
     exit
 )
 
-echo Сброс сетевых настроек...
+echo Resetting network settings...
+
 netsh winsock reset
 netsh int ip reset all
 netsh winhttp reset proxy
 ipconfig /flushdns
 
-echo Перезагрузите компьютер для завершения.
+echo Network settings reset completed.
+echo Please restart your computer to apply changes.
 pause
